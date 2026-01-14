@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 马上金狗 - 兄弟发财</title>
+    <style>
+        :root {
+            --gold: #ffdf00;
+            --bright-gold: #fff5ad;
+            --fire-red: #ff0000;
+            --dark-red: #8b0000;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei", "STHeiti", sans-serif;
+            background-color: var(--dark-red);
+            color: var(--gold);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 动态背景背景：暗红绸缎感 */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: radial-gradient(circle at center, #b91d1d 0%, #450a0a 100%);
+            width: 100%;
+            height: 100%;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        /* 👑 重点：超级大标题 “马上金狗” */
+        .main-title-gold {
+            font-size: clamp(4rem, 15vw, 8rem);
+            font-weight: 900;
+            margin: 0;
+            padding: 0;
+            line-height: 1.1;
+            background: linear-gradient(to bottom, #fff 0%, var(--gold) 40%, #ff8c00 70%, #8b4513 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(255, 223, 0, 0.6));
+            animation: bounceIn 1s ease-out, goldShine 3s infinite linear;
+            text-transform: uppercase;
+        }
+
+        /* 副标题：2026马年 */
+        .sub-year {
+            font-size: 1.8rem;
+            letter-spacing: 10px;
+            color: #fff;
+            margin-top: 10px;
+            text-shadow: 0 0 10px var(--fire-red);
+        }
+
+        /* 倒计时美化 */
+        .countdown-wrapper {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .timer {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .time-item span {
+            display: block;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* 祝福语：预祝兄弟发财 */
+        .brother-wish {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: bold;
+            margin: 20px 0;
+            background: linear-gradient(90deg, #ffd700, #fff, #ffd700);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: moveGradient 3s linear infinite;
+        }
+
+        /* 动画库 */
+        @keyframes goldShine {
+            0% { filter: drop-shadow(0 0 10px rgba(255, 223, 0, 0.5)); }
+            50% { filter: drop-shadow(0 0 30px rgba(255, 223, 0, 1)); }
+            100% { filter: drop-shadow(0 0 10px rgba(255, 223, 0, 0.5)); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* 底部 */
+        footer {
+            width: 100%;
+            padding: 50px 0;
+            background: rgba(0,0,0,0.5);
+            border-top: 2px solid var(--gold);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--gold);
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .btn-action {
+            background: linear-gradient(180deg, #ff4d4d, #b91d1d);
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .btn-action:hover {
+            transform: scale(1.1) rotate(-2deg);
+            background: var(--gold);
+            color: #8b0000;
+        }
+
+        .particle { position: absolute; pointer-events: none; z-index: 100; }
+    </style>
+</head>
+<body>
+
+<div id="bg-canvas"></div>
+
+<div class="container">
+    <div class="main-title-gold">马上金狗</div>
+    <div class="sub-year">2026 丙午马年</div>
+
+    <div class="countdown-wrapper">
+        <p style="margin:0 0 10px 0; color: #ccc;">离大年初一开金狗还有</p>
+        <div class="timer">
+            <div class="time-item"><span id="days">00</span>天</div>
+            <div class="time-item"><span id="hours">00</span>时</div>
+            <div class="time-item"><span id="mins">00</span>分</div>
+            <div class="time-item"><span id="secs">00</span>秒</div>
+        </div>
+    </div>
+
+    <div class="brother-wish">
+        预祝各位兄弟马年发财，开出金狗！
+    </div>
+
+    <button class="btn-action" onclick="boom()">点我开好运 🐕✨</button>
+</div>
+
+<footer>
+    <div class="footer-text">
+        马上金狗祝兄弟们天天发财！
+    </div>
+    <p style="color: #666; margin-top: 10px;">© 2026 马年财富限量版</p>
+</footer>
+
+<script>
+    // 倒计时逻辑
+    function updateTimer() {
+        const target = new Date('February 17, 2026 00:00:00').getTime();
+        const now = new Date().getTime();
+        const diff = target - now;
+        if (diff > 0) {
+            document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById('mins').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById('secs').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+        }
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    // 炸裂金币和金狗特效
+    function boom() {
+        for (let i = 0; i < 60; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            // 随机出现金币、红包和金狗
+            const icons = ['💰', '🧧', '🐕', '🪙', '✨'];
+            p.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            p.style.left = '50vw';
+            p.style.top = '50vh';
+            p.style.fontSize = Math.random() * 30 + 20 + 'px';
+            
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 10 + 5;
+            const vx = Math.cos(angle) * velocity;
+            const vy = Math.sin(angle) * velocity;
+            
+            document.body.appendChild(p);
+
+            let posX = window.innerWidth / 2;
+            let posY = window.innerHeight / 2;
+            let opacity = 1;
+
+            const move = () => {
+                posX += vx;
+                posY += vy + 2; // 模拟重力
+                opacity -= 0.01;
+                p.style.left = posX + 'px';
+                p.style.top = posY + 'px';
+                p.style.opacity = opacity;
+
+                if (opacity > 0) {
+                    requestAnimationFrame(move);
+                } else {
+                    p.remove();
+                }
+            };
+            requestAnimationFrame(move);
+        }
+    }
+</script>
+
+</body>
+</html>
